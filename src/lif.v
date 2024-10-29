@@ -25,7 +25,7 @@ module lif(
     end
 
     // next state logic
-    assign next_state = current + (state >> 1); // right shift for Beta = 0.5, easier than division
+    assign next_state = current + (spike ? 8'b0 : (state >> 1)); // right shift for Beta = 0.5, easier than division
 
     // spiking logic
     assign spike = (state >= threshold);
