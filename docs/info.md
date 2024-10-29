@@ -13,7 +13,7 @@ Takes an 8-bit input voltage and treats it as a current injection to a LIF neuro
 
 ## How to test
 
-Explain how to use your project
+Do something
 
 ## External hardware
 
