@@ -13,7 +13,7 @@ module lif(
 
     wire [7:0] next_state;
     reg [7:0] threshold;
-    reg [7:0] beta;
+    //reg [7:0] beta;
 
     always @(posedge clk) begin
         if (!rst_n) begin
