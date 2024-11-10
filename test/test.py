@@ -16,6 +16,7 @@ async def test_project(dut):
     dut.rst_n.value = 0 # low to reset
     await ClockCycles(dut.clk, 10)
     dut.rst_n.value = 1 # take out of reset
+    dut.uio_in.value = 0    # Decode mode
 
     dut.uio_in.value = 0    # assert that period = 100000
     await ClockCycles(dut.clk, 10)
@@ -27,6 +28,8 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 10)
 
     # Assume 10 MHz clock speed
+    
+    dut._log.info("Testing Decoder")
 
 
     # Test 1: High frequency signal (10 kHz)
@@ -78,7 +81,28 @@ async def test_project(dut):
     assert dut.uo_out == 5
 
 
-    # await ClockCycles(dut.clk, 20)
-    # assert dut.ui_out.value == 128
+    dut.rst_n.value = 0 # low to reset
+    await ClockCycles(dut.clk, 10)
+    dut.rst_n.value = 1 # take out of reset
+
+
+    dut._log.info("Testing Encoder")
+
+    dut.uio_in.value = 1    # Encode mode
+
+    dut.ui_in.value = 0
+    await ClockCycles(dut.clk, 1200)
+    
+    dut.ui_in.value = 16
+    await ClockCycles(dut.clk, 1200)
+
+    dut.ui_in.value = 64
+    await ClockCycles(dut.clk, 1200)
+    
+    dut.ui_in.value = 128
+    await ClockCycles(dut.clk, 1200)
+    
+    dut.ui_in.value = 255
+    await ClockCycles(dut.clk, 50)
 
     dut._log.info("Finished test")
