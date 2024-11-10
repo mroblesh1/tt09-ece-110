@@ -4,13 +4,16 @@ module FrequencyDecoder (
     input wire signal_in,          // 1-bit frequency input signal
     input wire [1:0] sample_rate, // 00: 
     //output reg freq_range,        // 0 when low frequency (0-255), 1 when high frequency (0-66280)
-    output reg [7:0] freq_out // 8-bit output representing frequency
+    output [7:0] freq_out // 8-bit output representing frequency
 );
     
     wire [31:0] sample_period;    // Number of clock cycles per sampling period
     reg [31:0] counter;        // Counter to measure the number of clock cycles
     reg [31:0] frequency;      // Measured frequency (not scaled)
+    reg [7:0] freq_trunc; // trancated
     reg [0:0] signal_in_prev;  // Previous signal_in to detect rising edges
+
+    assign freq_out = freq_trunc;
 
 
     // Assuming 10 MHz Clock Speed
@@ -45,11 +48,11 @@ module FrequencyDecoder (
                     //freq_range <= 1;    // Set to high frequency range
                         
                     // Normalize the frequency value to fit in 8-bits, maximum of 66280
-                    freq_out <= (frequency[15:8] > 255) ? 255 : frequency[15:8];
+                    freq_trunc <= (frequency[15:8] > 255) ? 255 : frequency[15:8];
                 end else begin
                     //freq_range <= 0;    // Set to low frequency range
                     // No need to normalize
-                    freq_out <= frequency[7:0];
+                    freq_trunc <= frequency[7:0];
                 end
                 
                 // Reset counter after sampling
