@@ -18,26 +18,29 @@ module tt_um_mroblesh (
 
   // All output pins must be assigned. If not used, assign to 0.
   assign uio_out[7:0] = 8'b0;
-  //assign ui_in[7:1] = 7'b0;
   assign uio_oe  = 1;
 
   // List all unused inputs to prevent warnings
   wire _unused = &{ena, uio_in, 1'b0};
 
-  // instantiate lif module
-  // lif lif_inst (
-  //   .clk(clk),
-  //   .rst_n(rst_n),
-  //   .current(ui_in),
-  //   .state(uo_out),
-  //   .spike(uio_out[0])
-  // );
+  // One idea is to have a Decoder, Encoder, and Delta Modulator on one chip
+  // There will be 2 dedicated uio inputs to select between these 3
+  // 00 - Frequency Decoder
+  // 01 - Frequency Encoder
+  // 10 - Delta Modulator
+  // 11 - Delta Modulator
+  // When FreqDecode selected, there will be additional inputs added to select between
+  // different sampling periods (ui_in)
+  //
 
   // Instantiate FreqDecode module
   FrequencyDecoder decoder_inst (
     .clk(clk),
     .reset(~rst_n),
     .signal_in(ui_in[0]),
+    .sample_rate(uio_in[7:6]),
+
+    //.freq_range(uio_out[5]),
     .freq_out(uo_out)
   );
 
