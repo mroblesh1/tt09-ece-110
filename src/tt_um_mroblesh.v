@@ -36,12 +36,12 @@ module tt_um_mroblesh (
   wire [7:0] in_bus;
   assign signal_in = uio_in[0] ? 1'b0 : ui_in[0]; // 0 unless in decode mode, in which case takes LSB of ui_in
   assign sample_rate = uio_in[0] ? 2'b0 : uio_in[7:6];  // 0 unless in decode mode
-  assign in_bus = uio_in[0] ? ui_in : 7'b0; // 0 unless in encode mode, takes ui_in bus
+  assign in_bus = uio_in[0] ? ui_in : 8'b0; // 0 unless in encode mode, takes ui_in bus
 
   wire [7:0] freq_out;
   wire [0:0] out;
   assign uo_out[0] = uio_in[0] ? out : freq_out[0];
-  assign uo_out[7:1] = uio_in[0] ? 6'b0 : freq_out[7:1];
+  assign uo_out[7:1] = uio_in[0] ? 7'b0 : freq_out[7:1];
 
   // Instantiate FreqDecode module
   FrequencyDecoder decoder_inst (
@@ -51,7 +51,7 @@ module tt_um_mroblesh (
     .sample_rate(sample_rate),
 
     //.freq_range(uio_out[5]),
-    .freq_out(uo_out)
+    .freq_out(freq_out)
   );
 
   FrequencyEncoder encoder_inst (

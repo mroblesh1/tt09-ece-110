@@ -13,7 +13,7 @@ module FrequencyEncoder(
         if (reset) begin
             divide_value <= 0;
         end else begin
-            divide_value <= 8'hFF - in_bus;  // Lower input value corresponds to longer period (lower frequency)
+            divide_value <= 16'h00FF - {8'h00, in_bus};  // Lower input value corresponds to longer period (lower frequency)
         end
     end
 
