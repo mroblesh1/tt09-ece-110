@@ -4,7 +4,7 @@ module FrequencyDecoder (
     input wire signal_in,          // 1-bit frequency input signal
     input wire [1:0] sample_rate, // 00: 
     //output reg freq_range,        // 0 when low frequency (0-255), 1 when high frequency (0-66280)
-    output [7:0] freq_out // 8-bit output representing frequency
+    output wire [7:0] freq_out // 8-bit output representing frequency
 );
     
     wire [31:0] sample_period;    // Number of clock cycles per sampling period
@@ -33,7 +33,7 @@ module FrequencyDecoder (
             counter <= 32'b0;
             frequency <= 32'b0;
             //freq_range <= 1'b0;
-            freq_out <= 8'b0;
+            freq_trunc <= 8'b0;
         end else begin
             // Update progression within sampling period
             counter <= counter + 1;
