@@ -28,7 +28,7 @@ module FrequencyDecoder (
 
     
     // Initialize counter and sampling period on reset
-    always @(posedge clk or posedge reset) begin
+    always @(posedge clk) begin
         if (reset) begin
             counter <= 32'b0;
             frequency <= 32'b0;
