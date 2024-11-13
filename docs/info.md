@@ -9,11 +9,15 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Takes an 8-bit input voltage and treats it as a current injection to a LIF neuron
+Frequency Encoder:
+Takes an 1-bit oscillating input and outputs frequency (# of rising edges in a sampling period). Takes in a 2-bit input to determine sampling period (100, 1k, 10k, 100k CC)
+
+Frequency Decoder:
+Takes in an 8-bit number and outputs a frequency corresponding to the input. Higher values correspond to a higher output frequency.
 
 ## How to test
 
-Do something
+Provided testbench mostly checks if decoder and encoder behave roughly as expected for a given constant input.
 
 ## External hardware
 
